@@ -23,4 +23,4 @@
 ## Top Languages
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=yasinhajilou&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&v=2" alt="Top languages" />
+  <img src="https://github-readme-stats.hackclub.dev/api/top-langs/?username=yasinhajilou&layout=compact&theme=tokyonight&hide_border=true&langs_count=8" alt="Top languages" />
