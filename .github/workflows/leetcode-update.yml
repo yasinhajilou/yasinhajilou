@@ -35,6 +35,17 @@ jobs:
           # Sanity check — make sure we got an SVG and not an error page
           head -c 200 assets/leetcode-card.svg | grep -q "<svg" || (echo "Did not receive a valid SVG"; exit 1)
 
+      - name: Fetch latest Top Languages card
+        run: |
+          URL="https://github-readme-stats.vercel.app/api/top-langs/?username=yasinhajilou&layout=compact&theme=tokyonight&hide_border=true&langs_count=8&cache_seconds=1800"
+          # Vercel cold starts can take 10-15s; retry generously
+          for i in 1 2 3 4 5; do
+            curl -fsSL --max-time 30 "$URL" -o assets/top-langs.svg && break
+            echo "Attempt $i failed, retrying in 6s..."; sleep 6
+          done
+          # Sanity check
+          head -c 200 assets/top-langs.svg | grep -q "<svg" || (echo "top-langs fetch failed"; rm -f assets/top-langs.svg; exit 0)
+
       - name: Stamp README with last-updated date
         run: |
           STAMP="$(date -u '+%Y-%m-%d')"
@@ -45,7 +56,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/leetcode-card.svg README.md
+          git add assets/leetcode-card.svg assets/top-langs.svg README.md
           if git diff --staged --quiet; then
             echo "Nothing changed — skipping commit."
           else
