@@ -1,0 +1,54 @@
+name: Update LeetCode card
+
+# Runs daily and commits the latest LeetCode stats card so:
+#   1. The README always shows a fresh snapshot.
+#   2. The daily commit lights up the GitHub contribution graph.
+
+on:
+  schedule:
+    # Daily at 06:17 UTC. Off-peak — GitHub's cron runs are less reliable on the hour.
+    - cron: "17 6 * * *"
+  push:
+    branches: [main]    # also run on first push so the snapshot exists immediately
+  workflow_dispatch:    # and allow manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: leetcode-update
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest LeetCode card
+        run: |
+          mkdir -p assets
+          # Cache-bust with a timestamp so we always get the freshest render
+          URL="https://leetcard.jacoblin.cool/yasinhajilou?ext=heatmap&theme=dark&font=Source%20Code%20Pro&border=0&cache=$(date +%s)"
+          curl -fsSL --retry 3 --retry-delay 5 "$URL" -o assets/leetcode-card.svg
+          # Sanity check — make sure we got an SVG and not an error page
+          head -c 200 assets/leetcode-card.svg | grep -q "<svg" || (echo "Did not receive a valid SVG"; exit 1)
+
+      - name: Stamp README with last-updated date
+        run: |
+          STAMP="$(date -u '+%Y-%m-%d')"
+          # Replace whatever's between the LAST_UPDATED markers with today's date
+          sed -i "s|<!-- LAST_UPDATED -->.*<!-- /LAST_UPDATED -->|<!-- LAST_UPDATED -->Last refreshed: ${STAMP} UTC<!-- /LAST_UPDATED -->|" README.md
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/leetcode-card.svg README.md
+          if git diff --staged --quiet; then
+            echo "Nothing changed — skipping commit."
+          else
+            git commit -m "chore: refresh LeetCode card $(date -u '+%Y-%m-%d')"
+            git push
+          fi
