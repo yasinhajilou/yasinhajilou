@@ -34,5 +34,5 @@
 </p>
 
 <p align="center">
-  <sub><!-- LAST_UPDATED -->Last refreshed: 2026-06-22 UTC<!-- /LAST_UPDATED --> · powered by <a href="./.github/workflows/leetcode-update.yml">GitHub Actions</a></sub>
+  <sub><!-- LAST_UPDATED -->Last refreshed: 2026-06-23 UTC<!-- /LAST_UPDATED --> · powered by <a href="./.github/workflows/leetcode-update.yml">GitHub Actions</a></sub>
 </p>
