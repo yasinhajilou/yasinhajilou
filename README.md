@@ -23,16 +23,4 @@
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
 </p>
 
----
 
-## LeetCode — Daily Grind
-
-<p align="center">
-  <a href="https://leetcode.com/u/yasinhajilou/">
-    <img src="./assets/leetcode-card.svg" alt="Yasin's LeetCode stats and heatmap" />
-  </a>
-</p>
-
-<p align="center">
-  <sub><!-- LAST_UPDATED -->Last refreshed: 2026-09-11 UTC<!-- /LAST_UPDATED --> · powered by <a href="./.github/workflows/leetcode-update.yml">GitHub Actions</a></sub>
-</p>
