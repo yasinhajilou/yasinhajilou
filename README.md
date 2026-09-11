@@ -1,7 +1,7 @@
 <h1 align="center">Hi, I'm Yasin</h1>
 
 <p align="center">
-  Daily LeetCode grinder. Building, breaking, shipping.
+ Building, breaking, shipping.
 </p>
 
 ---
